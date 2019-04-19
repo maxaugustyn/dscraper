@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  webapp:
+    container_name: api_instance
+    build: ./api_frontend
+    image: dscraper/api:1.0.1
+  redis: 
+    container_name: redis_instance
+    image: redis:4.0.14
+    hostname: redis
+  rabbit:
+    container_name: rabbit_instance
+    image: rabbitmq:3.7.14
+    hostname: rabbit
+  minio:
+    container_name: minio
+    image: minio
+    ports: "9001:9000"
+    environment:
+      - MINIO_ACCESS_KEY=login
+      - MINIO_SECRET_KEY=password

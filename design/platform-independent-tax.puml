@@ -1,0 +1,34 @@
+abstract class stor as "ContentStorageManager" {
+    +{static} storageCredentials
+    ~url storeContent()
+
+}
+
+class S3 as "S3ContentStorageManager" {
+    +{static} storageCredentials
+    ~url storeContent()
+
+}
+
+class Minio as "MinioContentStorageManager" {
+    +{static} storageCredentials
+    ~url storeContent()
+}
+
+stor <|-- S3
+stor <|-- Minio
+
+abstract class proc as "ContentProcessor" {
+    ~content process()
+}
+
+class image as "ImageContentProcessor" {
+    ~content process()
+}
+
+class text as "Text ContentProcessor" {
+    ~content process()
+}
+
+proc <|-- image
+proc <|-- text

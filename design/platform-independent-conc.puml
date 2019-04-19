@@ -1,0 +1,43 @@
+@startuml
+
+
+class api as "APIFrontend" << boundary >>{
+    +{static} config APIConfig
+    ~REST Job()
+}
+
+class job as "ScrapeJob" << control >>{
+    +{static} task JobContent
+    +{static} status JobStatus
+    ~jobStatus getJobStatus()
+    ~jobResult getJobResult()
+}
+
+class dl as "ContentDownloader" {
+    +{static} url TargetUrl
+    +{static} proxy ProxyConfig
+    ~downloadedPage download()
+}
+
+class prox as "DownloadProxyManager" {
+    +{static} proxyCollection AvailableProxyCollection
+    ~proxy getProxy()
+}
+
+abstract class proc as "ContentProcessor" {
+    ~content process()
+}
+
+abstract class stor as "ContentStorageManager" {
+    +{static} storageCredentials
+    ~url storeContent()
+
+}
+
+api --> job
+job --> dl
+job --> proc
+job --> stor
+dl --> prox
+
+@enduml
