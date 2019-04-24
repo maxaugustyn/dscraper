@@ -3,19 +3,36 @@ services:
   webapp:
     container_name: api_instance
     build: ./api_frontend
-    image: dscraper/api:1.0.1
+    image: dscraper/api:1.0.3
+    ports: 
+      - "5000:5000"
+  worker:
+    container_name: worker_instance
+    build: ./job_backend
+    image: dscraper/job:1.0.0
+    ports:
+      - "1234:1234"
   redis: 
     container_name: redis_instance
     image: redis:4.0.14
     hostname: redis
+    ports:
+      - "6379:6379"
   rabbit:
     container_name: rabbit_instance
-    image: rabbitmq:3.7.14
+    image: rabbitmq:3.7.14-management
     hostname: rabbit
+    ports:
+      - "5672:5672"
+      - "15672:8080"
   minio:
     container_name: minio
-    image: minio
-    ports: "9001:9000"
+    image: minio/minio:RELEASE.2019-04-18T01-15-57Z 
+    ports: 
+      - "9001:9000"
     environment:
       - MINIO_ACCESS_KEY=login
       - MINIO_SECRET_KEY=password
+    command:
+      - server
+      - /tmp/

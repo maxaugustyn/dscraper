@@ -38,12 +38,3 @@ class TextualContentExtractor():
              for line in self.soup.find_all(text=True)
              if line != "\n"]
         )
-
-
-if __name__ == "__main__":
-    from content_downloader import ContentDownloader
-    cd = ContentDownloader()
-    content = cd.download(
-        "https://getbootstrap.com/docs/4.3/examples/sign-in/")
-    print(content)
-    print(TextualContentExtractor(content).process())

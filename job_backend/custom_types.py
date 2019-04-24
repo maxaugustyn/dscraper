@@ -2,6 +2,7 @@ from io import BytesIO
 from requests.packages.urllib3.util import parse_url
 from dataclasses import dataclass, field
 from typing import List
+import json
 
 
 class TypedContent(object):
@@ -25,6 +26,9 @@ class ImageURL():
         self.source_url = source_url
         self.parsed_scraped_url = parse_url(self.scraped_url)
         self.parsed_source_url = parse_url(self.source_url)
+
+    def toJSON(self):
+        raise NotImplementedError
 
     def get_absolute(self):
         if self.scraped_url[0:2] == "//":

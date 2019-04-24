@@ -46,10 +46,3 @@ class ContentDownloader():
 
 class InvalidURLException(Exception):
     pass
-
-
-if __name__ == "__main__":
-    cd = ContentDownloader()
-    print(cd.get("https://httpstat.us/200"))
-    print(cd.get("/x/dhttpstat.us/404"))
-    print(cd.get("https://httpstat.us/404"))

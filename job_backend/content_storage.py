@@ -17,7 +17,7 @@ class ContentStorageManager():
         filename = f"{content.content_type}-{content.source_url.replace('/', '_')}"
         self.minio.put_object(bucket, filename,
                               content.bvalue, content.bvalue.getbuffer().nbytes)
-        return True
+        return bucket
 
     def _find_or_create_bucket(self, name):
         try:
@@ -32,23 +32,10 @@ class StorageKeyVault():
         pass
 
     def get_storage_address(self):
-        return "localhost:9001"
+        return "minio:9000"
 
     def get_access_key(self):
         return "login"
 
     def get_secret_key(self):
         return "password"
-
-
-if __name__ == "__main__":
-    csm = ContentStorageManager()
-    csm._find_or_create_bucket("xddd")
-    from content_downloader import ContentDownloader
-    from content_parser import TextualContentExtractor
-    cd = ContentDownloader()
-    content = cd.download(
-        "https://getbootstrap.com/docs/4.3/examples/sign-in/")
-    print(content)
-    x = TextualContentExtractor(content).process()
-    csm.save_content("xddd", x[0])
