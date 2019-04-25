@@ -16,3 +16,28 @@ This conceptualization gets more concrete, especially when there is an explicit 
 ![](design/platform-independent-tax.png)
 
 ## Platform-specific architecture
+
+Following building blocks were used to implement the scraper:
+
+* Flask - servers as an API frontend for the application (api_frontend)
+* Swagger - enables OpenAPI compatible documentation specification and visualization
+* Celery - background tasks for Downloading, Processing and Storing
+* Rabbitmq - queue for Celery
+* Redis - storage of task status in celery
+* Minio - S3 Compatible Storage 
+* Docker (compose) -  containerization
+* Python libraries - requests, beautifulsoup, validators, minio-py
+
+## Intuition
+The main idea behind this implementation is to use api_frontend as a boundary for user who can submit and control status of his jobs. Background task workers are used for asynchronous processing of images from multiple users and urls. Results of scraping are put in object storage buckets. 
+
+## Running the scraper
+Development environment starts with the following command: 
+
+``` docker-compose -f "docker-compose.yml" up -d --build```  
+
+Containers bind to localhost ports. Of all ports bound to hosts, following are interesting for the end user:
+* 9001 - where Minio UI resides and enables user to access the content of bucket (default credentials - login:password)
+* 5000 - where Swagger UI is presenting the API
+
+
